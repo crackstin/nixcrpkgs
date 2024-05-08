@@ -6,6 +6,10 @@ rec {
 
   glfw = import ./pkgs/glfw {
     inherit crossenv;
+  }
+
+  coost = import ./pkgs/coost {
+    inherit crossenv;
   };
 
   hello = import ./pkgs/hello {
