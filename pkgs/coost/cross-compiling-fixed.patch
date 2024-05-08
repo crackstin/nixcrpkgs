@@ -1,0 +1,101 @@
+From bdd99e4b06bd56ea19ad0bb1f3442a355e8f00c7 Mon Sep 17 00:00:00 2001
+From: Ryan Gresia <rgresia00@gmail.com>
+Date: Tue, 7 May 2024 18:08:09 -0700
+Subject: [PATCH] cross-compiling fixed
+
+---
+ include/co/byte_order.h     | 2 +-
+ include/co/co/sock.h        | 4 ++--
+ src/co/detours/uimports.cpp | 2 +-
+ src/co/hook.h               | 4 ++--
+ src/co/hook_win.cc          | 2 +-
+ src/log/log.cc              | 2 +-
+ 6 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/include/co/byte_order.h b/include/co/byte_order.h
+index c3d2aa5..44d4cb9 100644
+--- a/include/co/byte_order.h
++++ b/include/co/byte_order.h
+@@ -1,7 +1,7 @@
+ #pragma once
+ 
+ #ifdef _WIN32
+-#include <WinSock2.h>
++#include <winsock2.h>
+ 
+ #ifdef _MSC_VER
+ #pragma comment(lib, "Ws2_32.lib")
+diff --git a/include/co/co/sock.h b/include/co/co/sock.h
+index 3f46080..a589aa8 100644
+--- a/include/co/co/sock.h
++++ b/include/co/co/sock.h
+@@ -5,9 +5,9 @@
+ #include "../byte_order.h"
+ 
+ #ifdef _WIN32
+-#include <WinSock2.h>
++#include <winsock2.h>
+ #include <ws2tcpip.h> // for inet_ntop...
+-#include <MSWSock.h>
++#include <mswsock.h>
+ 
+ #ifdef _MSC_VER
+ #pragma comment(lib, "Ws2_32.lib")
+diff --git a/src/co/detours/uimports.cpp b/src/co/detours/uimports.cpp
+index 65a7e38..60eb72c 100644
+--- a/src/co/detours/uimports.cpp
++++ b/src/co/detours/uimports.cpp
+@@ -10,7 +10,7 @@
+ //  (once for each supported module format).
+ //
+ 
+-#include <Intsafe.h>
++#include <intsafe.h>
+ 
+ #if DETOURS_VERSION != 0x4c0c1   // 0xMAJORcMINORcPATCH
+ #error detours.h version mismatch
+diff --git a/src/co/hook.h b/src/co/hook.h
+index ff771ec..eadd37c 100644
+--- a/src/co/hook.h
++++ b/src/co/hook.h
+@@ -29,9 +29,9 @@ struct HookInitializer {
+ static HookInitializer g_hook_initializer;
+ 
+ #ifdef _WIN32
+-#include <WinSock2.h>
++#include <winsock2.h>
+ #include <ws2tcpip.h> // for inet_ntop...
+-#include <MSWSock.h>
++#include <mswsock.h>
+ 
+ #define _CO_DEF_SYS_API(x)  x##_fp_t __sys_api(x) = (x##_fp_t)x
+ 
+diff --git a/src/co/hook_win.cc b/src/co/hook_win.cc
+index 2fd28f3..65b65a7 100644
+--- a/src/co/hook_win.cc
++++ b/src/co/hook_win.cc
+@@ -15,7 +15,7 @@ void hook_sleep(bool) {}
+ #include "co/log.h"
+ #include "co/table.h"
+ #include "detours/detours.h"
+-#include <Mswsock.h>
++#include <mswsock.h>
+ 
+ DEF_bool(co_hook_log, false, ">>#1 enable log for hook if true");
+ 
+diff --git a/src/log/log.cc b/src/log/log.cc
+index 9b93f3b..f148494 100644
+--- a/src/log/log.cc
++++ b/src/log/log.cc
+@@ -154,7 +154,7 @@ void LogTime::update() {
+     {
+         _start = now_sec;
+       #ifdef _WIN32
+-        _localtime64_s(&_tm, &_start);
++        _localtime32_s(&_tm, &_start);
+       #else
+         localtime_r(&_start, &_tm);
+       #endif
+-- 
+2.34.1
+
