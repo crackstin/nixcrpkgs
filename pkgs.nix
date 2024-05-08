@@ -4,6 +4,10 @@ rec {
   recurseForDerivations = true;
   inherit (crossenv) binutils gcc;
 
+  coost = import ./pkgs/coost {
+    inherit crossenv;
+  };
+
   hello = import ./pkgs/hello {
     inherit crossenv;
   };
