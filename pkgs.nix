@@ -4,6 +4,18 @@ rec {
   recurseForDerivations = true;
   inherit (crossenv) binutils gcc;
 
+  libjpeg = import ./pkgs/libjpeg {
+    inherit crossenv;
+  };
+
+  googletest = import ./pkgs/googletest {
+    inherit crossenv;
+  };
+
+  cimg = import ./pkgs/cimg {
+    inherit crossenv;
+  };
+
   glm = import ./pkgs/glm {
     inherit crossenv;
   };
@@ -56,6 +68,10 @@ rec {
   mpfr = import ./pkgs/mpfr {
     env = crossenv;
     inherit gmp;
+  };
+
+  libpng = import ./pkgs/libpng {
+    inherit crossenv zlib;
   };
 
   libmpc = import ./pkgs/libmpc {
