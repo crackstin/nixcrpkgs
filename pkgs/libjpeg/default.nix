@@ -10,4 +10,5 @@ crossenv.make_derivation rec {
   };
 
   builder = ./builder.sh;
+  toolchain = ./toolchain.cmake;
 }
