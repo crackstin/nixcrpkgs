@@ -1,4 +1,4 @@
-{ crossenv, zlib }:
+{ crossenv }:
 
 crossenv.make_derivation rec {
   name = "libjpeg-${version}";
@@ -8,7 +8,6 @@ crossenv.make_derivation rec {
     url = "https://github.com/winlibs/libjpeg/archive/refs/tags/libjpeg-turbo-${version}.tar.gz";
     sha256 = "sha256-O5xO/VSwY9iRNmSA1HsykG57OhX5EmBFhn382PKmUsA=";
   };
-  cross_inputs = [ zlib ];
 
   builder = ./builder.sh;
 }
