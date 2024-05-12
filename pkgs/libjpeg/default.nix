@@ -11,4 +11,6 @@ crossenv.make_derivation rec {
 
   builder = ./builder.sh;
   toolchain = ./toolchain.cmake;
+  gcc = crossenv.gcc;
+  binutils = crossenv.binutils;
 }
